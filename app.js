@@ -1,5 +1,6 @@
 const Jimp = require('jimp');
 const inquirer = require('inquirer');
+const fs = require('fs');
 
 const addTextWatermarkToImage = async function (inputFile, outputFile, text) {
   const image = await Jimp.read(inputFile);
@@ -59,7 +60,12 @@ const startApp = async () => {
       message: 'Type your watermark text:',
     }]);
     options.watermarkText = text.value;
-    addTextWatermarkToImage('./img/' + options.inputImage, prepareOutputFilename(options.inputImage), options.watermarkText);
+
+    if (fs.existsSync(`img/${options.inputImage}`)) {
+      addTextWatermarkToImage('./img/' + options.inputImage, prepareOutputFilename(options.inputImage), options.watermarkText);
+    } else {
+      console.log('Something went wrong... The path of image doesn\'t exists.');
+    }
   }
   else {
     const image = await inquirer.prompt([{
@@ -69,7 +75,12 @@ const startApp = async () => {
       default: 'twitter.png',
     }]);
     options.watermarkImage = image.filename;
-    addImageWatermarkToImage('./img/' + options.inputImage, prepareOutputFilename(options.inputImage), './img/' + options.watermarkImage);
+
+    if (fs.existsSync(`img/${options.inputImage}`) && fs.existsSync(`img/${options.watermarkImage}`)) {
+      addImageWatermarkToImage('./img/' + options.inputImage, prepareOutputFilename(options.inputImage), './img/' + options.watermarkImage);
+    } else {
+      console.log('Something went wrong... The path of image or watermark doesn\'t exists.');
+    }
   }
 }
 
