@@ -1,5 +1,5 @@
 <p align="center">
-<img src="./logo.jpg" title="node-watermark-generator" alt="snippet of node watermark generator">
+<img src="img/logo.jpg" title="node-watermark-generator" alt="snippet of node watermark generator">
 </p>
 
 
